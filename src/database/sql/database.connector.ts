@@ -1,5 +1,3 @@
-
-
 import { Logger } from '../../common/logger';
 import { inject, injectable } from 'tsyringe';
 import { IDatabaseConnector } from './database.connector.interface';

@@ -1,14 +1,16 @@
 import { Logger } from "../../../../common/logger";
 import { DbConfig } from "../datatbase.config";
-import { Client } from 'pg';
+//import { Client } from 'pg';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const mysql = require('mysql2');
 
-export class PostgresqlClient {
+export class MysqlClient {
     static async dropDb() {
         try {
             const config = DbConfig.config;
             const query = `DROP DATABASE IF EXISTS ${config.database}`;
-            await PostgresqlClient.executeQuery(query);
+            await MysqlClient.executeQuery(query);
         } catch (error) {
             Logger.instance().log(error.message);
         }
@@ -17,11 +19,11 @@ export class PostgresqlClient {
     static async executeQuery(query: string) {
         try {
             const config = DbConfig.config;
-            const client = new Client({
+            const client = new mysql({
                 user: config.username,
                 host: config.host,
                 password: config.password,
-                port: 5432,
+                port: 3306,
             });
 
             await client.connect();
@@ -36,7 +38,7 @@ export class PostgresqlClient {
         try {
             const config = DbConfig.config;
             const query = `CREATE DATABASE ${config.database}`;
-            await PostgresqlClient.executeQuery(query);
+            await MysqlClient.executeQuery(query);
         } catch (error) {
             Logger.instance().log(error.message);
         }
